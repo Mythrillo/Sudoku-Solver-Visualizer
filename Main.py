@@ -5,20 +5,21 @@ import os
 
 os.environ['SDL_VIDEO_CENTERED'] = '1'
 
-test2 = [[4,0,4,5,0,6,0,7,0],
-         [3,0,6,7,1,2,5,8,0],
-         [0,0,8,0,4,0,1,2,6],
-         [0,8,0,0,0,0,0,0,0],
-         [0,0,0,4,6,0,3,0,8],
-         [0,0,0,1,7,0,6,0,2],
-         [5,0,0,0,0,0,0,6,7],
-         [0,1,7,6,0,4,0,3,9],
-         [0,0,9,0,2,7,0,1,0]]
+sudoku = [[0, 0, 4, 5, 0, 6, 0, 7, 0],
+         [3, 0, 6, 7, 1, 2, 5, 8, 0],
+         [0, 0, 8, 0, 4, 0, 1, 2, 6],
+         [0, 8, 0, 0, 0, 0, 0, 0, 0],
+         [0, 0, 0, 4, 6, 0, 3, 0, 8],
+         [0, 0, 0, 1, 7, 0, 6, 0, 2],
+         [5, 0, 0, 0, 0, 0, 0, 6, 7],
+         [0, 1, 7, 6, 0, 4, 0, 3, 9],
+         [0, 0, 9, 0, 2, 7, 0, 1, 0]]
 
 BLACK = (0, 0, 0)
 WHITE = (200, 200, 200)
 WINDOW_HEIGHT = 900
 WINDOW_WIDTH = 900
+
 
 class Sudoku:
 
@@ -47,8 +48,8 @@ class Sudoku:
         row = row - row % 3
         column = column - column % 3
 
-        for i in range(row, row+3):
-            for j in range(column, column+3):
+        for i in range(row, row + 3):
+            for j in range(column, column + 3):
                 if number == self.board[i][j]:
                     return False
         return True
@@ -56,7 +57,7 @@ class Sudoku:
     def no_solution(self):
 
         screen.fill(WHITE)
-        font.render_to(screen, (WINDOW_HEIGHT/2 - 50, WINDOW_WIDTH/2 - 50), "NO SOLUTION", BLACK)
+        font.render_to(screen, (WINDOW_HEIGHT / 2 - 50, WINDOW_WIDTH / 2 - 50), "NO SOLUTION", BLACK)
         pygame.display.update()
         pygame.time.wait(5000)
         pygame.quit()
@@ -71,12 +72,13 @@ class Sudoku:
                 self.no_solution()
             self.backtrack()
             self.fill_empty(0, row, column)
-        for new_number in range(number+1, 10):
+        for new_number in range(number + 1, 10):
 
-            self.change_cell_color(new_number, row , column)
+            self.change_cell_color(new_number, row, column)
 
-            if self.check_row(new_number, row) and self.check_column(new_number, column) and self.check_square(new_number, row,
-                                                                                                       column):
+            if self.check_row(new_number, row) and self.check_column(new_number, column) and self.check_square(
+                    new_number, row,
+                    column):
                 if self.current_backtrack < 0:
                     self.current_backtrack += 1
                 self.board[row][column] = new_number
@@ -97,8 +99,8 @@ class Sudoku:
                 continue
 
     def change_cell_color(self, number, row, column):
-        pygame.draw.rect(screen, (204, 255, 51), (column*100 + 1, row*100 + 1, 99, 99))
-        font.render_to(screen, (50 + column * 100, 50 + row* 100), str(number), BLACK)
+        pygame.draw.rect(screen, (204, 255, 51), (column * 100 + 1, row * 100 + 1, 99, 99))
+        font.render_to(screen, (50 + column * 100, 50 + row * 100), str(number), BLACK)
         pygame.display.update()
         pygame.time.wait(50)
 
@@ -133,9 +135,8 @@ class Sudoku:
                 if self.board[row][column] == 0:
                     continue
                 else:
-                    font.render_to(screen, (50 + column*100, 50 + row*100), str(self.board[row][column]), BLACK)
+                    font.render_to(screen, (50 + column * 100, 50 + row * 100), str(self.board[row][column]), BLACK)
         pygame.display.update()
-
 
 
 def draw_grid():
@@ -144,14 +145,15 @@ def draw_grid():
     for y in range(0, WINDOW_HEIGHT, int(WINDOW_HEIGHT / 9)):
         pygame.draw.line(screen, BLACK, (0, y), (WINDOW_WIDTH, y))
 
+
 def exit_handler():
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
 
-def main():
 
+def main():
     global screen, clock, font
 
     pygame.init()
@@ -161,11 +163,10 @@ def main():
     screen.fill(WHITE)
     font = pygame.freetype.SysFont("monospace", 30)
 
-    testowe = Sudoku(test2)
+    sudo = Sudoku(sudoku)
 
-    testowe.solve()
+    sudo.solve()
 
 
 if __name__ == "__main__":
     main()
-
