@@ -8,7 +8,7 @@ os.environ['SDL_VIDEO_CENTERED'] = '1'
 sudoku = [[0, 0, 4, 5, 0, 6, 0, 7, 0],
          [3, 0, 6, 7, 1, 2, 5, 8, 0],
          [0, 0, 8, 0, 4, 0, 1, 2, 6],
-         [0, 8, 0, 0, 0, 0, 0, 0, 0],
+         [6, 8, 5, 0, 0, 0, 0, 0, 0],
          [0, 0, 0, 4, 6, 0, 3, 0, 8],
          [0, 0, 0, 1, 7, 0, 6, 0, 2],
          [5, 0, 0, 0, 0, 0, 0, 6, 7],
@@ -59,7 +59,7 @@ class Sudoku:
         screen.fill(WHITE)
         font.render_to(screen, (WINDOW_HEIGHT / 2 - 50, WINDOW_WIDTH / 2 - 50), "NO SOLUTION", BLACK)
         pygame.display.update()
-        pygame.time.wait(5000)
+        pygame.time.wait(4000)
         pygame.quit()
         sys.exit()
 
@@ -99,10 +99,11 @@ class Sudoku:
                 continue
 
     def change_cell_color(self, number, row, column):
-        pygame.draw.rect(screen, (204, 255, 51), (column * 100 + 1, row * 100 + 1, 99, 99))
+
+        pygame.draw.rect(screen, (240, 20*row, 20*column), (column * 100 + 1, row * 100 + 1, 99, 99))
         font.render_to(screen, (50 + column * 100, 50 + row * 100), str(number), BLACK)
         pygame.display.update()
-        pygame.time.wait(50)
+        pygame.time.wait(10)
 
     def backtrack(self):
 
@@ -166,6 +167,7 @@ def main():
     sudo = Sudoku(sudoku)
 
     sudo.solve()
+    pygame.time.wait(3000)
 
 
 if __name__ == "__main__":
